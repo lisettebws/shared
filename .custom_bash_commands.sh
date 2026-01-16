@@ -1,12 +1,12 @@
 #!/bin/bash
 
-## branch | Checkout a branch with the branch name and origin/main
+## branch $1 | Checkout a branch with the branch name and origin/main
 #*    example: branch branchname = git checkout -B branchname origin/main
 function branch() {
     git checkout -B $1 origin/main
 }
 
-## debranch stash with a message of unstaged branchname, checkout main, delete branchname, pull
+## debranch $1 | stash with a message of unstaged branchname, checkout main, delete branchname, pull
 #*    example: debranch bug_12345
 #*    note: can use git branch autocomplete if you've run the newktd command in this file 
 function debranch() {
@@ -15,7 +15,7 @@ function debranch() {
     git branch -D $1 
     git pull
 }
-
+##   
 ## dbupdated | after updates, run dbic, then update database, then restart all, then yarn build. Used when updating the branch or applying branches with changes to the database.
 function dbupdates(){
     dbic
@@ -29,7 +29,7 @@ function applied(){
     restart_all
     yarn build
 }
-
+##   
 ## setssh | turn on and add ssh key
 function setssh(){
     eval "$(ssh-agent -s)"
@@ -47,20 +47,30 @@ function newktd(){
     __git_complete debranch __git_main
 }
 
-## use perl-git-bz
-##  attach -e $1 HEAD~$2..
+## newktd_nossh | sources aliases, and builds the locate database.
+#*    note: run after every new build of ktd/when opening a new window
+
+function newktd(){
+    source shared/.bash_aliases
+    sudo /etc/cron.daily/plocate
+    source /usr/share/bash-completion/completions/git
+    __git_complete debranch __git_main
+}
+##   
+## -PERL GIT BZ-
+##  atch $1 $2.. | this opens the edit screen and for attaching the last $2 commits to bug # $1
 #*    example: atch 1234 3 | becomes /kohadevbox/perl-git-bz/bin/git-bz attach -e 1234 HEAD~3..
-#*    note: this opens the edit screen and for attaching the last 3 commits to bug 1234.
 function atch(){
     /kohadevbox/perl-git-bz/bin/git-bz attach -e $1 HEAD~$2..
 }
 
-##  aply $1 |  apply bug 1234
+##  aply $1 |  apply bug $1
 #*    example: aply 1234
 function aply(){
     /kohadevbox/perl-git-bz/bin/git-bz apply $1
 }
-
+## -/PERL GIT BZ-
+##  
 ## hre | hard reset to origin main
 function hre(){
     git reset --hard origin/main
@@ -91,36 +101,49 @@ function gln(){
 function glno(){
     git log -n $1 --oneline
 }
-
-## Stash
-##  shashl | list full stash
+##   
+## -STASH-
+##  shashl \\ list full stash | stasha $1 \\ apply a stash
+##  stashs \\ save stash      | stashm $1 \\ save with message
+# shashl | list full stash
 function stashl(){
     git stash list
 }
-##  stashs | save stash
+# stashs | save stash
 function stashs(){
     git stash save
 }
 
-##  stashm $1 | save with message
+#  stashm $1 | save with message
 function stashm(){
     git stash save -m $1
 }
 
-##  stasha $1 | apply a stash
+# stasha $1 | apply a stash
 function stasha(){
     git stash apply $1
 }
-
+## -/STASH-
+##  
 ## ipl | install plugins and restart all
 function ipl (){
     /kohadevbox/koha/misc/devel/install_plugins.pl
     restart_all
 }
+##  
+## custom | List my functions and alias
+function custom() { 
+awk '/##/' /kohadevbox/koha/shared/.custom_bash_commands.sh | awk 'BEGIN {FS = "## "} ; {print $2}' | awk 'BEGIN {FS = "|"} ; {print "\033[32m" $1 "\033[37m" $2}'
+ awk '/##/' /kohadevbox/koha/shared/.bash_aliases | awk 'BEGIN {FS = "## "} ; {print $2}'  | awk 'BEGIN {FS = "|"} ; {print "\033[32m" $1 "\033[37m" $2}'
 
-## listfunctions | Search my functions
-function listfunctions() { grep -i "##"  /kohadevbox/koha/shared/.custom_bash_commands.sh; }
+    }
+##  
+## functions | list functions
+function functions() {
+    awk '/##/' /kohadevbox/koha/shared/.custom_bash_commands.sh | awk 'BEGIN {FS = "## "} ; {print $2}' | awk 'BEGIN {FS = "|"} ; {print "\033[32m" $1 "\033[37m" $2}'
 
+}
+##  
 ## readfunction | more detail on a specific function
 readfunction(){
   echo
