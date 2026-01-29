@@ -43,20 +43,29 @@ function newktd(){
     setssh
     source shared/.bash_aliases
     sudo /etc/cron.daily/plocate
-    source /usr/share/bash-completion/completions/git
-    __git_complete debranch __git_main
+    source shared/.git-completion.bash
 }
 
 ## newktd_nossh | sources aliases, and builds the locate database.
 #*    note: run after every new build of ktd/when opening a new window
 
-function newktd(){
+function newktd_nossh(){
     source shared/.bash_aliases
     sudo /etc/cron.daily/plocate
-    source /usr/share/bash-completion/completions/git
-    __git_complete debranch __git_main
+    source shared/.git-completion.bash
 }
 ##   
+## -Koha Logs-
+##  tgl | tail the koha logs 
+function tgl(){
+    tail -f /var/log/koha/kohadev/*.log
+}
+##  tggl $1 | tail the koha logs with a grep
+function tggl() {
+    tail -f /var/log/koha/kohadev/*.log | grep $1
+}
+##  -/Koha Logs-
+##  
 ## -PERL GIT BZ-
 ##  atch $1 $2.. | this opens the edit screen and for attaching the last $2 commits to bug # $1
 #*    example: atch 1234 3 | becomes /kohadevbox/perl-git-bz/bin/git-bz attach -e 1234 HEAD~3..
