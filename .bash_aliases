@@ -56,3 +56,6 @@ alias evs='eval "$(ssh-agent -s)"'
 ##  sha | add shared/gitssh_id
 alias sha='ssh-add shared/gitssh_id'
 ## -/SSH-
+
+## you don't build yarn, you spin yarn 
+alias spin_yarn='yarn build'
