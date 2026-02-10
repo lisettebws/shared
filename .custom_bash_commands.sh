@@ -24,6 +24,13 @@ function dbupdates(){
     yarn build
 }
 
+##
+## pla | after changes to a plugin, install plugins, restart all, yarn build
+function pla(){
+    ipl
+    applied
+}
+##
 ## applied | after updates restart_all and yarn build, used when updating patches with no db updates or after making changes that require the rebuilds.
 function applied(){
     restart_all
@@ -41,9 +48,10 @@ function setssh(){
 
 function newktd(){
     setssh
-    source shared/.bash_aliases
+    source /kohadevbox/koha/shared/.bash_aliases
     sudo /etc/cron.daily/plocate
-    source shared/.git-completion.bash
+    source /kohadevbox/koha/shared/.git-completion.bash
+    source /kohadevbox/koha/shared/.bashrc
 }
 
 ## newktd_nossh | sources aliases, and builds the locate database.
@@ -53,6 +61,7 @@ function newktd_nossh(){
     source shared/.bash_aliases
     sudo /etc/cron.daily/plocate
     source shared/.git-completion.bash
+    source /kohadevbox/koha/shared/.git-completion.bash
 }
 ##   
 ## -Koha Logs-

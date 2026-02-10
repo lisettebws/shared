@@ -1,3 +1,4 @@
+alias aaa="echo 'it was updated'"
 ## la | list all
 ## 
 alias la="ls -a"
@@ -58,4 +59,4 @@ alias sha='ssh-add shared/gitssh_id'
 ## -/SSH-
 
 ## you don't build yarn, you spin yarn 
-alias spin_yarn='yarn build'
+alias spin='yarn build'
