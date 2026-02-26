@@ -20,8 +20,8 @@ function debranch() {
 function dbupdates(){
     dbic
     updatedatabase
-    restart_all
     yarn build
+    restart_all
 }
 
 ##
@@ -33,8 +33,8 @@ function pla(){
 ##
 ## applied | after updates restart_all and yarn build, used when updating patches with no db updates or after making changes that require the rebuilds.
 function applied(){
-    restart_all
     yarn build
+    restart_all
 }
 ##   
 ## setssh | turn on and add ssh key
