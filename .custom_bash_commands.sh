@@ -15,6 +15,16 @@ function debranch() {
     git branch -D $1 
     git pull
 }
+
+## decurrent | stash with a message of unstaged current branchname, checkout main, delete that branchname, pull
+function decurrent() {
+    OUTPUT=$(git branch --show-current)
+    git stash save -m unstaged ${OUTPUT} changes
+    git checkout main
+    git branch -D ${OUTPUT}
+    git pull
+}
+
 ##   
 ## dbupdated | after updates, run dbic, then update database, then restart all, then yarn build. Used when updating the branch or applying branches with changes to the database.
 function dbupdates(){
